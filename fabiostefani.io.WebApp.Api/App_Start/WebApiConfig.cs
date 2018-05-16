@@ -11,7 +11,8 @@ namespace fabiostefani.io.WebApp.Api
     {
         public static void Register(HttpConfiguration config)
         {
-            // Serviços e configuração da API da Web
+           // Serviços e configuração da API da Web
+            config.EnableCors();
 
             // Rotas da API da Web
             config.MapHttpAttributeRoutes();
