@@ -24,35 +24,51 @@ function Cadastrar() {
         salvarEstudantes('PUT', aluno.id, aluno);
     }
     carregaEstudantes();
-    //console.log(aluno);
+    $('#myModal').modal('hide');
 };
 
-function Cancelar() {
+function NovoAluno(){
     var btnSalvar = document.querySelector('#btnSalvar');
-    var btnCancelar = document.querySelector('#btnCancelar');
-    var titulo = document.querySelector('#titulo');
-
-    aluno = {};
-
-    btnSalvar.textContent = 'Cadastrar';
-    btnCancelar.textContent = 'Limpar';
-    titulo.textContent = 'Cadastrar aluno';
-
+    
+    var titulo = document.querySelector('#tituloModal');
     document.querySelector('#nome').value = '';
     document.querySelector('#sobrenome').value = '';
     document.querySelector('#telefone').value = '';
     document.querySelector('#ra').value = '';
 
-    console.log('limpar');
+    aluno = {};
+
+    btnSalvar.textContent = 'Cadastrar';    
+    
+    titulo.textContent = 'Cadastrar aluno';
+
+    $('#myModal').modal('show');
+}
+
+function Cancelar() {
+    var btnSalvar = document.querySelector('#btnSalvar');
+    
+    var titulo = document.querySelector('#tituloModal');
+    document.querySelector('#nome').value = '';
+    document.querySelector('#sobrenome').value = '';
+    document.querySelector('#telefone').value = '';
+    document.querySelector('#ra').value = '';
+
+    aluno = {};
+
+    btnSalvar.textContent = 'Cadastrar';    
+    
+    titulo.textContent = 'Cadastrar aluno';
+
+    $('#myModal').modal('hide');
+    //console.log('limpar');
 }
 
 function editarEstudante(estudante) {
-    var btnSalvar = document.querySelector('#btnSalvar');
-    var btnCancelar = document.querySelector('#btnCancelar');
-    var titulo = document.querySelector('#titulo');
+    var btnSalvar = document.querySelector('#btnSalvar');    
+    var titulo = document.querySelector('#tituloModal');
 
-    btnSalvar.textContent = 'Salvar';
-    btnCancelar.textContent = 'Cancelar';
+    btnSalvar.textContent = 'Salvar';    
     titulo.textContent = `Editar aluno ${estudante.nome}`;
 
 
@@ -74,9 +90,29 @@ function excluirEstudante(id) {
 
 }
 
-function excluir(id) {
-    excluirEstudante(id);
-    carregaEstudantes();
+function excluir(estudante) {
+
+    bootbox.confirm({
+        message: `Tem certeza que deseja excluir o estudante ${estudante.nome}?`,
+        buttons: {
+            confirm: {
+                label: 'Sim',
+                className: 'btn-success'
+            },
+            cancel: {
+                label: 'Não',
+                className: 'btn-danger'
+            }
+        },
+        callback: function (result) {
+            if (result){
+                excluirEstudante(id);
+                carregaEstudantes();
+            }    
+        }
+    });
+
+    
 }
 
 function carregaEstudantes() {
@@ -117,7 +153,7 @@ function adicionaLinha(estudante) {
                             <td>${estudante.ra}</td>
                             <td>
                                 <button class="btn btn-info" data-toggle="modal" data-target="#myModal" onclick='editarEstudante(${JSON.stringify(estudante)})'>Editar </button>
-                                <button class="btn btn-danger"  onclick='excluir(${estudante.id})'>Excluir </button> 
+                                <button class="btn btn-danger"  onclick='excluir(${JSON.stringify( estudante)})'>Excluir </button> 
                             </td>
                         </tr>
                        `

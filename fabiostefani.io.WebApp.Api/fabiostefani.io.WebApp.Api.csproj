@@ -108,6 +108,7 @@
     <Content Include="Web\js\bootstrap.min.js" />
     <Content Include="Web\js\npm.js" />
     <Content Include="Web\scripts\script.js" />
+    <Content Include="Web\styles\style.css" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
