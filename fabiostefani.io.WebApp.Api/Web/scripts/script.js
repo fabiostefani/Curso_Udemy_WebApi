@@ -118,11 +118,22 @@ function excluir(estudante) {
 function carregaEstudantes() {
     tbody.innerHTML = '';
     var xhr = new XMLHttpRequest();
+    console.log('UNSENT', xhr.readyState);
 
     xhr.open('GET', `http://localhost:50367/api/alunos`, true);
+    console.log('OPENED', xhr.readyState);
+
+    xhr.onprogress = function() {
+        console.log('LOADING', xhr.readyState);
+    }
+
+    xhr.onerror = function() {
+        console.log('ERROR', xhr.readyState);
+    }
 
     xhr.onload = function () {
         var estudantes = JSON.parse(this.responseText);
+        console.log('DONE', xhr.readyState);
         for (var indice in estudantes) {
             adicionaLinha(estudantes[indice]);
         }
