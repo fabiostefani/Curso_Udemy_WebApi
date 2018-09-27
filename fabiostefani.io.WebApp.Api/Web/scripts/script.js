@@ -127,9 +127,9 @@ function carregaEstudantes() {
         console.log('LOADING', xhr.readyState);
     }
 
-    // xhr.onerror = function() {
-    //     console.log('ERROR', xhr.readyState);
-    // }
+    xhr.onerror = function() {
+        console.log('ERROR', xhr.readyState);
+    }
 
     xhr.onload = function () {
         var estudantes = JSON.parse(this.responseText);
