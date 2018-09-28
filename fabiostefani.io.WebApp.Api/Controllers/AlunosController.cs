@@ -1,4 +1,5 @@
 ﻿using fabiostefani.io.WebApp.Api.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -7,12 +8,37 @@ using System.Web.Http.Cors;
 namespace fabiostefani.io.WebApp.Api.Controllers
 {
     [EnableCors("*", "*", "*")]
+    [RoutePrefix("api/Alunos")]
     public class AlunosController : ApiController
     {
         // GET: api/Alunos
-        public IEnumerable<Alunos> Get()
-        {            
-            return new Alunos().ListarAlunos();            
+        //[HttpGet]
+        public IHttpActionResult Get()
+        {
+            try
+            {
+                return Ok(new Alunos().ListarAlunos());
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+            
+        }
+
+        [HttpGet]
+        [Route("Recuperar")]
+        public IHttpActionResult Recuperar()
+        {
+            try
+            {
+                return Ok(new Alunos().ListarAlunos());
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+
         }
 
         // GET: api/Alunos/5
