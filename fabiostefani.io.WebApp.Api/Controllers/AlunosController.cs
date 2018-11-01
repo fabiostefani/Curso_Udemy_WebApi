@@ -42,9 +42,11 @@ namespace fabiostefani.io.WebApp.Api.Controllers
         }
 
         // GET: api/Alunos/5
-        public IHttpActionResult Get(int id)
+        [HttpGet]
+        [Route("Recuperar/{id:int}/{nome}")]
+        public IHttpActionResult Get(int id, string nome)
         {
-            return Ok(new Alunos().ListarAlunos().FirstOrDefault(x => x.Id == id));
+            return Ok(new Alunos().ListarAlunos().FirstOrDefault(x => x.Id == id && x.Nome == nome));
         }
 
         // POST: api/Alunos

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,13 +9,14 @@ namespace fabiostefani.io.WebApp.Api.Models
 {
     public class Alunos
     {
-        public Alunos(int id, string nome, string sobrenome, string telefone, int ra)
+        public Alunos(int id, string nome, string sobrenome, string telefone, int ra, DateTime data)
         {
             Id = id;
             Nome = nome;
             Sobrenome = sobrenome;
             Telefone = telefone;
             Ra = ra;
+            Data = data;
         }
         public Alunos()
         {
@@ -26,6 +28,7 @@ namespace fabiostefani.io.WebApp.Api.Models
         public string Sobrenome { get; set; }
         public string Telefone { get; set; }
         public int Ra { get; set; }
+        public DateTime Data { get; set; }
 
         public List<Alunos> ListarAlunos()
         {
