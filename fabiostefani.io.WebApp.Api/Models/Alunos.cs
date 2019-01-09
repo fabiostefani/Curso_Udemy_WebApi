@@ -9,7 +9,7 @@ namespace fabiostefani.io.WebApp.Api.Models
 {
     public class Alunos
     {
-        public Alunos(int id, string nome, string sobrenome, string telefone, int ra, DateTime data)
+        public Alunos(int id, string nome, string sobrenome, string telefone, int ra, string data)
         {
             Id = id;
             Nome = nome;
@@ -28,23 +28,27 @@ namespace fabiostefani.io.WebApp.Api.Models
         public string Sobrenome { get; set; }
         public string Telefone { get; set; }
         public int Ra { get; set; }
-        public DateTime Data { get; set; }
+        public string Data { get; set; }
 
         public List<Alunos> ListarAlunos()
         {
-            var caminhoArquivo = HostingEnvironment.MapPath(@"~/App_Data/Base.json");
-            var json = File.ReadAllText(caminhoArquivo);
-            var listaAlunos = JsonConvert.DeserializeObject<List<Alunos>>(json);
-            return listaAlunos;
+            string caminhoArquivo = RecuperarCaminhoBancoDados();
+            string json = File.ReadAllText(caminhoArquivo);
+            return JsonConvert.DeserializeObject<List<Alunos>>(json);
         }
 
         private bool ReescreverArquivo(List<Alunos> listaAlunos)
         {
-            var caminhoArquivo = HostingEnvironment.MapPath(@"~/App_Data/Base.json");
-            var json = JsonConvert.SerializeObject(listaAlunos, Formatting.Indented);
+            string caminhoArquivo = RecuperarCaminhoBancoDados();
+            string json = JsonConvert.SerializeObject(listaAlunos, Formatting.Indented);
             File.WriteAllText(caminhoArquivo, json);
 
             return true;
+        }
+
+        private static string RecuperarCaminhoBancoDados()
+        {
+            return HostingEnvironment.MapPath(@"~/App_Data/Base.json");
         }
 
         public Alunos Inserir(Alunos aluno)

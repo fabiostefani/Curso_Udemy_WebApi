@@ -49,6 +49,28 @@ namespace fabiostefani.io.WebApp.Api.Controllers
             return Ok(new Alunos().ListarAlunos().FirstOrDefault(x => x.Id == id && x.Nome == nome));
         }
 
+        // GET: api/Alunos/5
+        [HttpGet]
+        [Route(@"RecuperarPorDataNome/{data:regex([0-9]{4}\-[0-9]{2})}/{nome:minlength(5)}")]
+        public IHttpActionResult Recuperar(string data, string nome)
+        {
+            try
+            {
+                var aluno = new Alunos();
+                IEnumerable<Alunos> alunos = aluno.ListarAlunos().Where(x => x.Data == data || x.Nome == nome);
+                if (!alunos.Any())
+                {
+                    return NotFound();
+                }
+                return Ok(alunos);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+            
+        }
+
         // POST: api/Alunos
         public List<Alunos> Post(Alunos aluno)
         {
