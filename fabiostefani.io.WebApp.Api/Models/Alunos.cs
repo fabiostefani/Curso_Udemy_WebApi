@@ -1,6 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Web.Hosting;
@@ -35,6 +38,37 @@ namespace fabiostefani.io.WebApp.Api.Models
             string caminhoArquivo = RecuperarCaminhoBancoDados();
             string json = File.ReadAllText(caminhoArquivo);
             return JsonConvert.DeserializeObject<List<Alunos>>(json);
+        }
+
+        
+
+        public List<Alunos> ListarAlunosDb()
+        {
+            //string stringConexao = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Desenv\Estudos\DotNet\CursoWebApi_Udemy\fabiostefani.io.WebApp\fabiostefani.io.WebApp.Api\App_Data\Database.mdf;Integrated Security=True";
+            //string stringConexao = ConfigurationManager.AppSettings["ConnectionString"];
+            string stringConexao = ConfigurationManager.ConnectionStrings["ConexaoDev"].ConnectionString;
+            IDbConnection conexao;
+
+            conexao = new SqlConnection(stringConexao);
+            conexao.Open();
+            IDbCommand selectCmd = conexao.CreateCommand();
+            selectCmd.CommandText = "select * from alunos";
+
+            IDataReader resultado = selectCmd.ExecuteReader();
+
+            var listaAlunos = new List<Alunos>();
+            while (resultado.Read())
+            {
+                var aluno = new Alunos();
+                aluno.Id = Convert.ToInt32(resultado["Id"]);
+                aluno.Nome = Convert.ToString(resultado["Nome"]);
+                aluno.Sobrenome = Convert.ToString(resultado["Sobrenome"]);
+                aluno.Telefone = Convert.ToString(resultado["Telefone"]);
+                aluno.Ra = Convert.ToInt32(resultado["Ra"]);
+                listaAlunos.Add(aluno);
+            }
+            conexao.Close();
+            return listaAlunos;
         }
 
         private bool ReescreverArquivo(List<Alunos> listaAlunos)

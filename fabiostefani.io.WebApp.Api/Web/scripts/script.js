@@ -25,7 +25,7 @@ function Cadastrar() {
     }
     carregaEstudantes();
     $('#myModal').modal('hide');
-};
+}
 
 function NovoAluno(){
     var btnSalvar = document.querySelector('#btnSalvar');
@@ -69,7 +69,7 @@ function editarEstudante(estudante) {
     var titulo = document.querySelector('#tituloModal');
 
     btnSalvar.textContent = 'Salvar';    
-    titulo.textContent = `Editar aluno ${estudante.nome}`;
+    titulo.textContent = "Editar aluno ${estudante.nome}";
 
 
     document.querySelector('#nome').value = estudante.nome;
@@ -84,7 +84,7 @@ function editarEstudante(estudante) {
 function excluirEstudante(id) {
     var xhr = new XMLHttpRequest();
 
-    xhr.open('DELETE', `http://localhost:50367/api/alunos/${id}`, false);
+    xhr.open('DELETE', "http://localhost:50367/api/alunos/${id}", false);
 
     xhr.send();
 
@@ -93,7 +93,7 @@ function excluirEstudante(id) {
 function excluir(estudante) {
 
     bootbox.confirm({
-        message: `Tem certeza que deseja excluir o estudante ${estudante.nome}?`,
+        message: "Tem certeza que deseja excluir o estudante ${estudante.nome}?",
         buttons: {
             confirm: {
                 label: 'Sim',
@@ -120,7 +120,7 @@ function carregaEstudantes() {
     var xhr = new XMLHttpRequest();
     // console.log('UNSENT', xhr.readyState);
 
-    xhr.open('GET', `http://localhost:50367/api/alunos/Recuperar`, true);
+    xhr.open('GET', "http://localhost:50367/api/alunos/Recuperar", true);
     // console.log('OPENED', xhr.readyState);
 
     // xhr.onprogress = function() {
@@ -129,7 +129,7 @@ function carregaEstudantes() {
 
     xhr.onerror = function() {
         console.log('ERROR', xhr.readyState);
-    }
+    };
 
     xhr.onreadystatechange = function() {
         if (this.readyState == 4) {
@@ -146,9 +146,9 @@ function carregaEstudantes() {
                 console.log(erro.exceptionMessage);
             }
         }
-    }
+    };
     xhr.send();
-};
+}
 
 function salvarEstudantes(metodo, id, corpo) {
 
@@ -157,12 +157,12 @@ function salvarEstudantes(metodo, id, corpo) {
     if (id === undefined || id === 0)
         id = '';
 
-    xhr.open(metodo, `http://localhost:50367/api/alunos/${id}`, false);
+    xhr.open(metodo, "http://localhost:50367/api/alunos/${id}", false);
 
 
     xhr.setRequestHeader('content-type', 'application/json');
     xhr.send(JSON.stringify(corpo));
-};
+}
 
 function adicionaLinha(estudante) {
 
@@ -176,6 +176,6 @@ function adicionaLinha(estudante) {
                                 <button class="btn btn-danger"  onclick='excluir(${JSON.stringify( estudante)})'>Excluir </button> 
                             </td>
                         </tr>
-                       `
+                       `;
     tbody.innerHTML += trow;
 }
