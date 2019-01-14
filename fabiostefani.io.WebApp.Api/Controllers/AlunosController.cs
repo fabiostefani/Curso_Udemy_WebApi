@@ -32,7 +32,7 @@ namespace fabiostefani.io.WebApp.Api.Controllers
         {
             try
             {
-                return Ok(new Alunos().ListarAlunosDb());
+                return Ok(new Alunos().ListarAlunos());
             }
             catch (Exception ex)
             {

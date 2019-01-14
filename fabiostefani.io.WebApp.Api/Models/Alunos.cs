@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Web.Hosting;
@@ -35,41 +32,27 @@ namespace fabiostefani.io.WebApp.Api.Models
 
         public List<Alunos> ListarAlunos()
         {
-            string caminhoArquivo = RecuperarCaminhoBancoDados();
-            string json = File.ReadAllText(caminhoArquivo);
-            return JsonConvert.DeserializeObject<List<Alunos>>(json);
-        }
-
-        
-
-        public List<Alunos> ListarAlunosDb()
-        {
-            //string stringConexao = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Desenv\Estudos\DotNet\CursoWebApi_Udemy\fabiostefani.io.WebApp\fabiostefani.io.WebApp.Api\App_Data\Database.mdf;Integrated Security=True";
-            //string stringConexao = ConfigurationManager.AppSettings["ConnectionString"];
-            string stringConexao = ConfigurationManager.ConnectionStrings["ConexaoDev"].ConnectionString;
-            IDbConnection conexao;
-
-            conexao = new SqlConnection(stringConexao);
-            conexao.Open();
-            IDbCommand selectCmd = conexao.CreateCommand();
-            selectCmd.CommandText = "select * from alunos";
-
-            IDataReader resultado = selectCmd.ExecuteReader();
-
-            var listaAlunos = new List<Alunos>();
-            while (resultado.Read())
+            try
             {
-                var aluno = new Alunos();
-                aluno.Id = Convert.ToInt32(resultado["Id"]);
-                aluno.Nome = Convert.ToString(resultado["Nome"]);
-                aluno.Sobrenome = Convert.ToString(resultado["Sobrenome"]);
-                aluno.Telefone = Convert.ToString(resultado["Telefone"]);
-                aluno.Ra = Convert.ToInt32(resultado["Ra"]);
-                listaAlunos.Add(aluno);
+                return new AlunoDAO().ListarAlunosDb();
             }
-            conexao.Close();
-            return listaAlunos;
+            catch (Exception ex)
+            {
+                throw new Exception($"Erro ao listar alunos. Erro => {ex.Message} ");
+            }
+            
         }
+
+        //public List<Alunos> ListarAlunos()
+        //{
+        //    string caminhoArquivo = RecuperarCaminhoBancoDados();
+        //    string json = File.ReadAllText(caminhoArquivo);
+        //    return JsonConvert.DeserializeObject<List<Alunos>>(json);
+        //}
+
+
+
+
 
         private bool ReescreverArquivo(List<Alunos> listaAlunos)
         {
@@ -85,14 +68,23 @@ namespace fabiostefani.io.WebApp.Api.Models
             return HostingEnvironment.MapPath(@"~/App_Data/Base.json");
         }
 
-        public Alunos Inserir(Alunos aluno)
+        public void Inserir(Alunos aluno)
         {
-            var listaAluno = ListarAlunos();
-            var maxId = listaAluno.Max(x => x.Id) + 1;
-            aluno.Id = maxId;
-            listaAluno.Add(aluno);
-            ReescreverArquivo(listaAluno);
-            return aluno;
+            //var listaAluno = ListarAlunos();
+            //var maxId = listaAluno.Max(x => x.Id) + 1;
+            //aluno.Id = maxId;
+            //listaAluno.Add(aluno);
+            //ReescreverArquivo(listaAluno);
+            //return aluno;
+
+            try
+            {
+                new AlunoDAO().InserirAlunoDb(aluno);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erro ao inserir alunos. Erro => {ex.Message} ");
+            }
         }
 
         public Alunos Atualizar(int id, Alunos aluno)
