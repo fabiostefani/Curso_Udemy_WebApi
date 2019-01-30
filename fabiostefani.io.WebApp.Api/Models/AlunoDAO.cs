@@ -17,95 +17,149 @@ namespace fabiostefani.io.WebApp.Api.Models
             conexao.Open();
         }
 
-        public List<Alunos> ListarAlunosDb()
+        public List<Alunos> ListarAlunosDb(int? id)
         {
             //string stringConexao = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Desenv\Estudos\DotNet\CursoWebApi_Udemy\fabiostefani.io.WebApp\fabiostefani.io.WebApp.Api\App_Data\Database.mdf;Integrated Security=True";
             //string stringConexao = ConfigurationManager.AppSettings["ConnectionString"];
-
-            IDbCommand selectCmd = conexao.CreateCommand();
-            selectCmd.CommandText = "select * from alunos";
-
-            IDataReader resultado = selectCmd.ExecuteReader();
-
             var listaAlunos = new List<Alunos>();
-            while (resultado.Read())
+            try
             {
-                var aluno = new Alunos();
-                aluno.Id = Convert.ToInt32(resultado["Id"]);
-                aluno.Nome = Convert.ToString(resultado["Nome"]);
-                aluno.Sobrenome = Convert.ToString(resultado["Sobrenome"]);
-                aluno.Telefone = Convert.ToString(resultado["Telefone"]);
-                aluno.Ra = Convert.ToInt32(resultado["Ra"]);
-                listaAlunos.Add(aluno);
+                var selectCmd = conexao.CreateCommand();
+                selectCmd.CommandText = "select * from alunos";
+                if (id == null)
+                {
+                    selectCmd.CommandText = $"select * from alunos where id = {id}";
+                }
+
+                var resultado = selectCmd.ExecuteReader();
+
+
+                while (resultado.Read())
+                {
+                    var aluno = new Alunos
+                    {
+                        Id = Convert.ToInt32(resultado["Id"]),
+                        Nome = Convert.ToString(resultado["Nome"]),
+                        Sobrenome = Convert.ToString(resultado["Sobrenome"]),
+                        Telefone = Convert.ToString(resultado["Telefone"]),
+                        Ra = Convert.ToInt32(resultado["Ra"])
+                    };
+                    listaAlunos.Add(aluno);
+                }
+                conexao.Close();
+                return listaAlunos;
             }
-            conexao.Close();
-            return listaAlunos;
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                conexao.Close();
+            }
+            
         }
 
         public void InserirAlunoDb(Alunos aluno)
         {
-            IDbCommand comandInsert = conexao.CreateCommand();
-            comandInsert.CommandText = "insert into alunos (nome, sobrenome, telefone, ra) values(@nome, @sobrenome, @telefone, @ra)";
+            try
+            {
+                var comandInsert = conexao.CreateCommand();
+                comandInsert.CommandText = "insert into alunos (nome, sobrenome, telefone, ra) values(@nome, @sobrenome, @telefone, @ra)";
 
-            IDbDataParameter paramNome = new SqlParameter("nome", aluno.Nome);
-            comandInsert.Parameters.Add(paramNome);
+                IDbDataParameter paramNome = new SqlParameter("nome", aluno.Nome);
+                comandInsert.Parameters.Add(paramNome);
 
-            IDbDataParameter paramSobrenome = new SqlParameter("sobrenome", aluno.Sobrenome);
-            comandInsert.Parameters.Add(paramSobrenome);
+                IDbDataParameter paramSobrenome = new SqlParameter("sobrenome", aluno.Sobrenome);
+                comandInsert.Parameters.Add(paramSobrenome);
 
-            IDbDataParameter paramTelefone = new SqlParameter("telefone", aluno.Telefone);
-            comandInsert.Parameters.Add(paramTelefone);
+                IDbDataParameter paramTelefone = new SqlParameter("telefone", aluno.Telefone);
+                comandInsert.Parameters.Add(paramTelefone);
 
-            IDbDataParameter paramRa = new SqlParameter("ra", aluno.Ra);
-            comandInsert.Parameters.Add(paramRa);
+                IDbDataParameter paramRa = new SqlParameter("ra", aluno.Ra);
+                comandInsert.Parameters.Add(paramRa);
 
-            comandInsert.ExecuteNonQuery();
+                comandInsert.ExecuteNonQuery();
 
-            conexao.Close();
+                conexao.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                conexao.Close();
+            }
+            
         }
 
         public void AtualizarAlunoDb(Alunos aluno)
         {
-            var comandUpdate = conexao.CreateCommand();
-            comandUpdate.CommandText = @"update alunos 
+            try
+            {
+                var comandUpdate = conexao.CreateCommand();
+                comandUpdate.CommandText = @"update alunos 
                                             set nome = @nome,
                                                 sobrenome = @sobrenome, 
                                                 telefone = @telefone, 
                                                 ra = @ra
                                            where id = @id";
 
-            IDbDataParameter paramNome = new SqlParameter("nome", aluno.Nome);
-            comandUpdate.Parameters.Add(paramNome);
+                IDbDataParameter paramNome = new SqlParameter("nome", aluno.Nome);
+                comandUpdate.Parameters.Add(paramNome);
 
-            IDbDataParameter paramSobrenome = new SqlParameter("sobrenome", aluno.Sobrenome);
-            comandUpdate.Parameters.Add(paramSobrenome);
+                IDbDataParameter paramSobrenome = new SqlParameter("sobrenome", aluno.Sobrenome);
+                comandUpdate.Parameters.Add(paramSobrenome);
 
-            IDbDataParameter paramTelefone = new SqlParameter("telefone", aluno.Telefone);
-            comandUpdate.Parameters.Add(paramTelefone);
+                IDbDataParameter paramTelefone = new SqlParameter("telefone", aluno.Telefone);
+                comandUpdate.Parameters.Add(paramTelefone);
 
-            IDbDataParameter paramRa = new SqlParameter("ra", aluno.Ra);
-            comandUpdate.Parameters.Add(paramRa);
+                IDbDataParameter paramRa = new SqlParameter("ra", aluno.Ra);
+                comandUpdate.Parameters.Add(paramRa);
 
-            IDbDataParameter paramId = new SqlParameter("id", aluno.Id);
-            comandUpdate.Parameters.Add(paramId);
+                IDbDataParameter paramId = new SqlParameter("id", aluno.Id);
+                comandUpdate.Parameters.Add(paramId);
 
-            comandUpdate.ExecuteNonQuery();
+                comandUpdate.ExecuteNonQuery();
 
-            conexao.Close();
+                conexao.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                conexao.Close();
+            }
+            
         }
 
         public void DeletarAlunoDb(int id)
         {
-            var comandDelete = conexao.CreateCommand();
-            comandDelete.CommandText = @"delete alunos                                             
+            try
+            {
+                var comandDelete = conexao.CreateCommand();
+                comandDelete.CommandText = @"delete alunos                                             
                                            where id = @id";
 
-            IDbDataParameter paramId = new SqlParameter("id", id);
-            comandDelete.Parameters.Add(paramId);
+                IDbDataParameter paramId = new SqlParameter("id", id);
+                comandDelete.Parameters.Add(paramId);
 
-            comandDelete.ExecuteNonQuery();
+                comandDelete.ExecuteNonQuery();
 
-            conexao.Close();
+                conexao.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                conexao.Close();
+            }
+            
         }
     }
 }

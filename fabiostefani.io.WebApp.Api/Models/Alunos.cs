@@ -30,11 +30,11 @@ namespace fabiostefani.io.WebApp.Api.Models
         public int Ra { get; set; }
         public string Data { get; set; }
 
-        public List<Alunos> ListarAlunos()
+        public List<Alunos> ListarAlunos(int? id)
         {
             try
             {
-                return new AlunoDAO().ListarAlunosDb();
+                return new AlunoDAO().ListarAlunosDb(id);
             }
             catch (Exception ex)
             {

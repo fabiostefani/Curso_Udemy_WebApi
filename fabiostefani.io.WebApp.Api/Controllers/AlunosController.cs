@@ -17,7 +17,7 @@ namespace fabiostefani.io.WebApp.Api.Controllers
         {
             try
             {
-                return Ok(new Alunos().ListarAlunos());
+                return Ok(new Alunos().ListarAlunos(null));
             }
             catch (Exception ex)
             {
@@ -32,7 +32,7 @@ namespace fabiostefani.io.WebApp.Api.Controllers
         {
             try
             {
-                return Ok(new Alunos().ListarAlunos());
+                return Ok(new Alunos().ListarAlunos(null));
             }
             catch (Exception ex)
             {
@@ -43,10 +43,10 @@ namespace fabiostefani.io.WebApp.Api.Controllers
 
         // GET: api/Alunos/5
         [HttpGet]
-        [Route("Recuperar/{id:int}/{nome}")]
-        public IHttpActionResult Get(int id, string nome)
+        [Route("Recuperar/{id:int}/{nome?}")]
+        public IHttpActionResult Get(int id, string nome = null)
         {
-            return Ok(new Alunos().ListarAlunos().FirstOrDefault(x => x.Id == id && x.Nome == nome));
+            return Ok(new Alunos().ListarAlunos(id).FirstOrDefault());
         }
 
         // GET: api/Alunos/5
@@ -57,7 +57,7 @@ namespace fabiostefani.io.WebApp.Api.Controllers
             try
             {
                 var aluno = new Alunos();
-                IEnumerable<Alunos> alunos = aluno.ListarAlunos().Where(x => x.Data == data || x.Nome == nome);
+                IEnumerable<Alunos> alunos = aluno.ListarAlunos(null).Where(x => x.Data == data || x.Nome == nome);
                 if (!alunos.Any())
                 {
                     return NotFound();
@@ -71,29 +71,59 @@ namespace fabiostefani.io.WebApp.Api.Controllers
             
         }
 
+        [HttpPost]
         // POST: api/Alunos
-        public List<Alunos> Post(Alunos aluno)
+        public IHttpActionResult Post(Alunos aluno)
         {
-            var alunos = new Alunos();
-            alunos.Inserir(aluno);
-            return alunos.ListarAlunos();
-        }
-
-        // PUT: api/Alunos/5
-        public Alunos Put(int id, [FromBody]Alunos aluno)
-        {
-            var alunos = new Alunos
+            try
             {
-                Id = id
-            };
-            alunos.Atualizar(aluno);
-            return alunos.ListarAlunos().FirstOrDefault(x => x.Id == id);
+                var alunos = new Alunos();
+                alunos.Inserir(aluno);
+                return Ok(alunos.ListarAlunos(null));
+            }
+            catch (Exception ex)
+            {
+
+                return InternalServerError(ex);
+            }
+            
         }
 
-        // DELETE: api/Alunos/5
-        public void Delete(int id)
+        [HttpPut]
+        // PUT: api/Alunos/5
+        public IHttpActionResult Put(int id, [FromBody]Alunos aluno)
         {
-            new Alunos().Deletar(id);
+            try
+            {
+                var alunos = new Alunos
+                {
+                    Id = id
+                };
+                alunos.Atualizar(aluno);
+                return Ok(alunos.ListarAlunos(id).FirstOrDefault());
+            }
+            catch (Exception ex)
+            {
+
+                return InternalServerError(ex)
+            }
+            
+        }
+
+        [HttpDelete]
+        // DELETE: api/Alunos/5
+        public IHttpActionResult Delete(int id)
+        {
+            try
+            {
+                new Alunos().Deletar(id);
+                return Ok("Deletado com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+            
         }
     }
 }
