@@ -87,38 +87,41 @@ namespace fabiostefani.io.WebApp.Api.Models
             }
         }
 
-        public Alunos Atualizar(int id, Alunos aluno)
+        public void Atualizar(Alunos aluno)
         {
-            var listaAluno = ListarAlunos();
-            var itemIndex = listaAluno.FindIndex(x => x.Id == aluno.Id);
-            if (itemIndex >= 0)
+            try
             {
-                aluno.Id = id;
-                listaAluno[itemIndex] = aluno;
+                new AlunoDAO().AtualizarAlunoDb(aluno);
             }
-            else
+            catch (Exception ex)
             {
-                return null;
+                throw new Exception($"Erro ao atualizar o aluno. Erro => {ex.Message} ");
             }
-            ReescreverArquivo(listaAluno);
-            return aluno;
         }
 
-        public bool Deletar(int id)
+        public void Deletar(int id)
         {
-            var listaAluno = ListarAlunos();
-            var itemIndex = listaAluno.FindIndex(x => x.Id == id);
-            if (itemIndex >= 0)
-            {
+            //var listaAluno = ListarAlunos();
+            //var itemIndex = listaAluno.FindIndex(x => x.Id == id);
+            //if (itemIndex >= 0)
+            //{
 
-                listaAluno.RemoveAt(itemIndex);
-            }
-            else
+            //    listaAluno.RemoveAt(itemIndex);
+            //}
+            //else
+            //{
+            //    return false;
+            //}
+            //ReescreverArquivo(listaAluno);
+            //return true;
+            try
             {
-                return false;
+                new AlunoDAO().DeletarAlunoDb(id);
             }
-            ReescreverArquivo(listaAluno);
-            return true;
+            catch (Exception ex)
+            {
+                throw new Exception($"Erro ao deletar o aluno. Erro => {ex.Message} ");
+            }
         }
     }
 }

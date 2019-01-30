@@ -82,7 +82,12 @@ namespace fabiostefani.io.WebApp.Api.Controllers
         // PUT: api/Alunos/5
         public Alunos Put(int id, [FromBody]Alunos aluno)
         {
-            return new Alunos().Atualizar(id, aluno);
+            var alunos = new Alunos
+            {
+                Id = id
+            };
+            alunos.Atualizar(aluno);
+            return alunos.ListarAlunos().FirstOrDefault(x => x.Id == id);
         }
 
         // DELETE: api/Alunos/5

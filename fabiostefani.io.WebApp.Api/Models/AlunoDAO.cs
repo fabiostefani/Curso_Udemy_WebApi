@@ -63,5 +63,49 @@ namespace fabiostefani.io.WebApp.Api.Models
 
             conexao.Close();
         }
+
+        public void AtualizarAlunoDb(Alunos aluno)
+        {
+            var comandUpdate = conexao.CreateCommand();
+            comandUpdate.CommandText = @"update alunos 
+                                            set nome = @nome,
+                                                sobrenome = @sobrenome, 
+                                                telefone = @telefone, 
+                                                ra = @ra
+                                           where id = @id";
+
+            IDbDataParameter paramNome = new SqlParameter("nome", aluno.Nome);
+            comandUpdate.Parameters.Add(paramNome);
+
+            IDbDataParameter paramSobrenome = new SqlParameter("sobrenome", aluno.Sobrenome);
+            comandUpdate.Parameters.Add(paramSobrenome);
+
+            IDbDataParameter paramTelefone = new SqlParameter("telefone", aluno.Telefone);
+            comandUpdate.Parameters.Add(paramTelefone);
+
+            IDbDataParameter paramRa = new SqlParameter("ra", aluno.Ra);
+            comandUpdate.Parameters.Add(paramRa);
+
+            IDbDataParameter paramId = new SqlParameter("id", aluno.Id);
+            comandUpdate.Parameters.Add(paramId);
+
+            comandUpdate.ExecuteNonQuery();
+
+            conexao.Close();
+        }
+
+        public void DeletarAlunoDb(int id)
+        {
+            var comandDelete = conexao.CreateCommand();
+            comandDelete.CommandText = @"delete alunos                                             
+                                           where id = @id";
+
+            IDbDataParameter paramId = new SqlParameter("id", id);
+            comandDelete.Parameters.Add(paramId);
+
+            comandDelete.ExecuteNonQuery();
+
+            conexao.Close();
+        }
     }
 }
