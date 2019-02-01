@@ -17,16 +17,16 @@ namespace fabiostefani.io.WebApp.Api.Models
             conexao.Open();
         }
 
-        public List<Alunos> ListarAlunosDb(int? id)
+        public List<AlunoDto> ListarAlunosDb(int? id)
         {
             //string stringConexao = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Desenv\Estudos\DotNet\CursoWebApi_Udemy\fabiostefani.io.WebApp\fabiostefani.io.WebApp.Api\App_Data\Database.mdf;Integrated Security=True";
             //string stringConexao = ConfigurationManager.AppSettings["ConnectionString"];
-            var listaAlunos = new List<Alunos>();
+            var listaAlunos = new List<AlunoDto>();
             try
             {
                 var selectCmd = conexao.CreateCommand();
                 selectCmd.CommandText = "select * from alunos";
-                if (id == null)
+                if (id != null)
                 {
                     selectCmd.CommandText = $"select * from alunos where id = {id}";
                 }
@@ -36,7 +36,7 @@ namespace fabiostefani.io.WebApp.Api.Models
 
                 while (resultado.Read())
                 {
-                    var aluno = new Alunos
+                    var aluno = new AlunoDto
                     {
                         Id = Convert.ToInt32(resultado["Id"]),
                         Nome = Convert.ToString(resultado["Nome"]),
@@ -60,7 +60,7 @@ namespace fabiostefani.io.WebApp.Api.Models
             
         }
 
-        public void InserirAlunoDb(Alunos aluno)
+        public void InserirAlunoDb(AlunoDto aluno)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace fabiostefani.io.WebApp.Api.Models
             
         }
 
-        public void AtualizarAlunoDb(Alunos aluno)
+        public void AtualizarAlunoDb(AlunoDto aluno)
         {
             try
             {

@@ -9,28 +9,23 @@ namespace fabiostefani.io.WebApp.Api.Models
 {
     public class Alunos
     {
-        public Alunos(int id, string nome, string sobrenome, string telefone, int ra, string data)
-        {
-            Id = id;
-            Nome = nome;
-            Sobrenome = sobrenome;
-            Telefone = telefone;
-            Ra = ra;
-            Data = data;
-        }
+        //public Alunos(int id, string nome, string sobrenome, string telefone, int ra, string data)
+        //{
+        //    //Id = id;
+        //    //Nome = nome;
+        //    //Sobrenome = sobrenome;
+        //    //Telefone = telefone;
+        //    //Ra = ra;
+        //    //Data = data;
+        //}
         public Alunos()
         {
 
         }
 
-        public int Id { get; set; }
-        public string Nome { get; set; }
-        public string Sobrenome { get; set; }
-        public string Telefone { get; set; }
-        public int Ra { get; set; }
-        public string Data { get; set; }
+       
 
-        public List<Alunos> ListarAlunos(int? id)
+        public List<AlunoDto> ListarAlunos(int? id)
         {
             try
             {
@@ -68,7 +63,7 @@ namespace fabiostefani.io.WebApp.Api.Models
             return HostingEnvironment.MapPath(@"~/App_Data/Base.json");
         }
 
-        public void Inserir(Alunos aluno)
+        public void Inserir(AlunoDto aluno)
         {
             //var listaAluno = ListarAlunos();
             //var maxId = listaAluno.Max(x => x.Id) + 1;
@@ -87,7 +82,7 @@ namespace fabiostefani.io.WebApp.Api.Models
             }
         }
 
-        public void Atualizar(Alunos aluno)
+        public void Atualizar(AlunoDto aluno)
         {
             try
             {

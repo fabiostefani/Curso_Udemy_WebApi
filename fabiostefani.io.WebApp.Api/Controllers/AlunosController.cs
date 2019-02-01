@@ -46,7 +46,15 @@ namespace fabiostefani.io.WebApp.Api.Controllers
         [Route("Recuperar/{id:int}/{nome?}")]
         public IHttpActionResult Get(int id, string nome = null)
         {
-            return Ok(new Alunos().ListarAlunos(id).FirstOrDefault());
+            try
+            {
+                return Ok(new Alunos().ListarAlunos(id).FirstOrDefault());
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+            
         }
 
         // GET: api/Alunos/5
@@ -57,7 +65,7 @@ namespace fabiostefani.io.WebApp.Api.Controllers
             try
             {
                 var aluno = new Alunos();
-                IEnumerable<Alunos> alunos = aluno.ListarAlunos(null).Where(x => x.Data == data || x.Nome == nome);
+                IEnumerable<AlunoDto> alunos = aluno.ListarAlunos(null).Where(x => x.Data == data || x.Nome == nome);
                 if (!alunos.Any())
                 {
                     return NotFound();
@@ -73,7 +81,7 @@ namespace fabiostefani.io.WebApp.Api.Controllers
 
         [HttpPost]
         // POST: api/Alunos
-        public IHttpActionResult Post(Alunos aluno)
+        public IHttpActionResult Post(AlunoDto aluno)
         {
             try
             {
@@ -91,21 +99,19 @@ namespace fabiostefani.io.WebApp.Api.Controllers
 
         [HttpPut]
         // PUT: api/Alunos/5
-        public IHttpActionResult Put(int id, [FromBody]Alunos aluno)
+        public IHttpActionResult Put(int id, [FromBody]AlunoDto aluno)
         {
             try
             {
-                var alunos = new Alunos
-                {
-                    Id = id
-                };
+                var alunos = new Alunos();
+                aluno.Id = id;
                 alunos.Atualizar(aluno);
                 return Ok(alunos.ListarAlunos(id).FirstOrDefault());
             }
             catch (Exception ex)
             {
 
-                return InternalServerError(ex)
+                return InternalServerError(ex);
             }
             
         }
