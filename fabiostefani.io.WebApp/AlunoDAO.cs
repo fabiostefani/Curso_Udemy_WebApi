@@ -1,10 +1,11 @@
-﻿using System;
+﻿using fabiostefani.io.WebApp.Dominio.Dtos;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace fabiostefani.io.WebApp.Api.Models
+namespace fabiostefani.io.WebApp.Api.Repositorio
 {
     public class AlunoDAO
     {

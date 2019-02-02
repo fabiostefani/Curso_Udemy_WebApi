@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using fabiostefani.io.WebApp.Api.Repositorio;
+using fabiostefani.io.WebApp.Dominio.Dtos;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,7 +25,7 @@ namespace fabiostefani.io.WebApp.Api.Models
 
         }
 
-       
+
 
         public List<AlunoDto> ListarAlunos(int? id)
         {
@@ -35,7 +37,7 @@ namespace fabiostefani.io.WebApp.Api.Models
             {
                 throw new Exception($"Erro ao listar alunos. Erro => {ex.Message} ");
             }
-            
+
         }
 
         //public List<Alunos> ListarAlunos()

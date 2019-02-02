@@ -1,4 +1,5 @@
 ﻿using fabiostefani.io.WebApp.Api.Models;
+using fabiostefani.io.WebApp.Dominio.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace fabiostefani.io.WebApp.Api.Controllers
             {
                 return InternalServerError(ex);
             }
-            
+
         }
 
         [HttpGet]
@@ -54,7 +55,7 @@ namespace fabiostefani.io.WebApp.Api.Controllers
             {
                 return InternalServerError(ex);
             }
-            
+
         }
 
         // GET: api/Alunos/5
@@ -76,7 +77,7 @@ namespace fabiostefani.io.WebApp.Api.Controllers
             {
                 return InternalServerError(ex);
             }
-            
+
         }
 
         [HttpPost]
@@ -99,7 +100,7 @@ namespace fabiostefani.io.WebApp.Api.Controllers
 
                 return InternalServerError(ex);
             }
-            
+
         }
 
         [HttpPut]
@@ -118,7 +119,7 @@ namespace fabiostefani.io.WebApp.Api.Controllers
 
                 return InternalServerError(ex);
             }
-            
+
         }
 
         [HttpDelete]
@@ -134,7 +135,7 @@ namespace fabiostefani.io.WebApp.Api.Controllers
             {
                 return InternalServerError(ex);
             }
-            
+
         }
     }
 }

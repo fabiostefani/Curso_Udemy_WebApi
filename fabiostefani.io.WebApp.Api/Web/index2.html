@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- div>ul>li -->
+    <!-- table>thread>th -->
+    <!-- table>tr>td -->
+    <!-- div+ul>li+p -->
+    <!-- div>p+div>p+footer -->
+    <div>
+        <header>
+            <h1></h1>
+        </header>
+        <!-- section>article>h2 -->
+    </div>
+
+    <!-- div^ul -->
+    <div></div>
+    <ul></ul>
+
+    <!-- div^ul>li^p -->
+    <div></div>
+    <ul>
+        <li></li>
+    </ul>
+    <p></p>
+
+    <!-- div>header>h1^section>article>h2+p^^footer>ul>li -->
+    <div>
+        <header>
+            <h1></h1>
+        </header>
+        <section>
+            <article>
+                <h2></h2>
+                <p></p>
+            </article>
+        </section>
+        <footer>
+            <ul>
+                <li></li>
+            </ul>
+        </footer>
+    </div>
+
+    <!-- ul>li*3 -->
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+
+    <!-- table>tr*3>td*3 -->
+    <table>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+
+    <!-- div>(ul>li*3>a)+div -->
+    <div>
+        <ul>
+            <li><a href=""></a></li>
+            <li><a href=""></a></li>
+            <li><a href=""></a></li>
+        </ul>
+        <div></div>
+    </div>
+
+    <!-- table>(thead>th*3)+tbody>tr>td*3 -->
+    <table>
+        <thead>
+            <th></th>
+            <th></th>
+            <th></th>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- ul>li*3>a{Clique} -->
+    <ul>
+        <li><a href="">Clique</a></li>
+        <li><a href="">Clique</a></li>
+        <li><a href="">Clique</a></li>
+    </ul>
+
+    <!-- a*3>{clique }+b{aqui} -->
+    <a href="">clique <b>aqui</b></a>
+    <a href="">clique <b>aqui</b></a>
+    <a href="">clique <b>aqui</b></a>
+
+    <!-- div>p{lorem}(ul>li*3>a>{clique }b{aqui})+div -->
+    <div>
+        <p>lorem</p>
+        <ul>
+            <li><a href="">clique <b>aqui</b></a></li>
+            <li><a href="">clique <b>aqui</b></a></li>
+            <li><a href="">clique <b>aqui</b></a></li>
+        </ul>
+        <div></div>
+    </div>
+</body>
+</html>
