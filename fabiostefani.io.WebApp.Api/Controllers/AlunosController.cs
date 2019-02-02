@@ -83,6 +83,11 @@ namespace fabiostefani.io.WebApp.Api.Controllers
         // POST: api/Alunos
         public IHttpActionResult Post(AlunoDto aluno)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
                 var alunos = new Alunos();

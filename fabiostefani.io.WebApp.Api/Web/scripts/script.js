@@ -69,7 +69,7 @@ function editarEstudante(estudante) {
     var titulo = document.querySelector('#tituloModal');
 
     btnSalvar.textContent = 'Salvar';    
-    titulo.textContent = "Editar aluno ${estudante.nome}";
+    titulo.textContent = `Editar aluno ${estudante.nome}`;
 
 
     document.querySelector('#nome').value = estudante.nome;
@@ -84,7 +84,7 @@ function editarEstudante(estudante) {
 function excluirEstudante(id) {
     var xhr = new XMLHttpRequest();
 
-    xhr.open('DELETE', "http://localhost:50367/api/alunos/${id}", false);
+    xhr.open('DELETE', `http://localhost:50367/api/alunos/${id}`, false);
 
     xhr.send();
 
@@ -106,7 +106,7 @@ function excluir(estudante) {
         },
         callback: function (result) {
             if (result){
-                excluirEstudante(id);
+                excluirEstudante(estudante.id);
                 carregaEstudantes();
             }    
         }
@@ -120,7 +120,7 @@ function carregaEstudantes() {
     var xhr = new XMLHttpRequest();
     // console.log('UNSENT', xhr.readyState);
 
-    xhr.open('GET', "http://localhost:50367/api/alunos/Recuperar", true);
+    xhr.open('GET', `http://localhost:50367/api/alunos/Recuperar`, true);
     // console.log('OPENED', xhr.readyState);
 
     // xhr.onprogress = function() {
@@ -157,7 +157,7 @@ function salvarEstudantes(metodo, id, corpo) {
     if (id === undefined || id === 0)
         id = '';
 
-    xhr.open(metodo, "http://localhost:50367/api/alunos/${id}", false);
+    xhr.open(metodo, `http://localhost:50367/api/alunos/${id}`, false);
 
 
     xhr.setRequestHeader('content-type', 'application/json');
