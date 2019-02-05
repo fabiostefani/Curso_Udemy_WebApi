@@ -93,7 +93,7 @@ function excluirEstudante(id) {
 function excluir(estudante) {
 
     bootbox.confirm({
-        message: "Tem certeza que deseja excluir o estudante ${estudante.nome}?",
+        message: `Tem certeza que deseja excluir o estudante '${estudante.nome}?'`,
         buttons: {
             confirm: {
                 label: 'Sim',
