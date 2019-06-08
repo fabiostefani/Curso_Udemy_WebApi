@@ -29,6 +29,7 @@ namespace fabiostefani.io.WebApp.Api.Controllers
 
         [HttpGet]
         [Route("Recuperar")]
+        [Authorize]
         public IHttpActionResult Recuperar()
         {
             try

@@ -12,13 +12,13 @@
 
 <body>
 
-    <form class="form-signin">
+    <form class="form-signin" onsubmit="login()">
         <img class="mb-4" src="/docs/4.2/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
         <h1 class="h3 mb-3 font-weight-normal">Acadêmico</h1>
-        <label for="inputEmail" class="sr-only">Email</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email" required="" autofocus="">
-        <label for="inputPassword" class="sr-only">Senha</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Senha" required="">
+        <label for="email" class="sr-only">Email</label>
+        <input type="text" id="nome" class="form-control" placeholder="Email" required="" autofocus="">
+        <label for="password" class="sr-only">Senha</label>
+        <input type="password" id="password" class="form-control" placeholder="Senha" required="">
         <div class="checkbox mb-3">
             <label>
                 <input type="checkbox" value="remember-me"> Lembre-me
@@ -27,7 +27,29 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
         <p class="mt-5 mb-3 text-muted">© 2017-2018</p>
     </form>
+    <script>
+        var login = function() {
+            event.preventDefault();
+            var nome = document.querySelector('#nome').value;
+            var password = document.querySelector('#password').value;
 
+            var xhr = new XMLHttpRequest();            
+            xhr.open('POST',  `http://localhost:50367/token`, true);
+            
+            xhr.onload = function() {
+                var resultado = this.responseText;
+                console.log(resultado);
+            },
+            
+            xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+            xhr.send(`grant_type=password&username=${nome}&password=${password}`);
+
+        }
+        var verificar = function()
+        {
+
+        }
+    </script>
 </body>
 
 </html>

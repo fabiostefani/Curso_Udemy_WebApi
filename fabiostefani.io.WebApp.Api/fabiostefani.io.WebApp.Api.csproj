@@ -142,9 +142,11 @@
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="BaseUsuarios.cs" />
     <Compile Include="Controllers\AlunosController.cs" />
     <Compile Include="Models\Alunos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProviderDeTokenDeAcesso.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

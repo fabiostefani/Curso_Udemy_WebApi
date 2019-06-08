@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
+using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Owin;
@@ -32,7 +33,24 @@ namespace fabiostefani.io.WebApp.Api
             ConfigureWebApi(config);
 
             app.UseCors(CorsOptions.AllowAll);
+
+            AcessandoAccessToken(app);
+
             app.UseWebApi(config);
+        }
+
+        private static void AcessandoAccessToken(IAppBuilder app)
+        {
+            var opcoesConfiguracaoToken = new OAuthAuthorizationServerOptions()
+            {
+                AllowInsecureHttp = true,
+                TokenEndpointPath = new PathString("/token"),
+                AccessTokenExpireTimeSpan = TimeSpan.FromHours(1),
+                Provider = new ProviderDeTokenDeAcesso()
+            };
+
+            app.UseOAuthAuthorizationServer(opcoesConfiguracaoToken);
+            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
         }
 
         public static void ConfigureWebApi(HttpConfiguration config)
@@ -60,8 +78,9 @@ namespace fabiostefani.io.WebApp.Api
                 c.SingleApiVersion("v1", "fabiostefani.io.WebApp.Api");                
                 c.IncludeXmlComments(GetXmlCommentsPath());
                 
-            });
+            });             
         }
+        
         private static string GetXmlCommentsPath()
         {
             return System.AppDomain.CurrentDomain.BaseDirectory + @"\bin\fabiostefani.io.WebApp.Api.xml";
