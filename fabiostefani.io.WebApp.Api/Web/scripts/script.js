@@ -121,6 +121,7 @@ function carregaEstudantes() {
     // console.log('UNSENT', xhr.readyState);
 
     xhr.open('GET', `http://localhost:50367/api/alunos/Recuperar`, true);
+    xhr.setRequestHeader('Authorization', sessionStorage.getItem('token'));
     // console.log('OPENED', xhr.readyState);
 
     // xhr.onprogress = function() {

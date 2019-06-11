@@ -1,7 +1,10 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
+using Newtonsoft.Json;
 
 namespace fabiostefani.io.WebApp.Api
 {
@@ -44,9 +47,24 @@ namespace fabiostefani.io.WebApp.Api
             if (usuario == null)
             {
                 context.SetError("invalid_grant", "Usuário não encontrado ou senha incorreta.");
+                return;
             }
 
-            var identidadeUsuario = new ClaimsIdentity(context.Options.AuthenticationType);
+            var props = new AuthenticationProperties(new Dictionary<string, string>
+            {
+                {
+                    "Username",context.UserName
+                }
+            });
+
+            var identy = new ClaimsIdentity(context.Options.AuthenticationType);
+            var identidadeUsuario = new AuthenticationTicket(identy, props );
+
+            foreach (var funcao in usuario.Funcoes)
+            {
+                identidadeUsuario.Identity.AddClaim(new Claim(ClaimTypes.Role, funcao));
+            }
+
             context.Validated(identidadeUsuario);            
         }
 
@@ -55,10 +73,24 @@ namespace fabiostefani.io.WebApp.Api
         //    throw new System.NotImplementedException();
         //}
 
-        //public Task TokenEndpoint(OAuthTokenEndpointContext context)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
+        public override Task TokenEndpoint(OAuthTokenEndpointContext context)
+        {
+            foreach (var item in context.Properties.Dictionary)
+            {
+                context.AdditionalResponseParameters.Add(item.Key, item.Value);
+            }
+            var claims = context.Identity.Claims
+                                         .GroupBy(x => x.Type)
+                                         .Select(x => new { Claim = x.Key, Value = x.Select(z => z.Value).ToArray() });
+
+            foreach (var item in claims)
+            {
+                context.AdditionalResponseParameters.Add(item.Claim, JsonConvert.SerializeObject(item.Value));
+            }
+
+            return base.TokenEndpoint(context);
+
+        }
 
         //public Task TokenEndpointResponse(OAuthTokenEndpointResponseContext context)
         //{

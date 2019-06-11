@@ -29,7 +29,7 @@ namespace fabiostefani.io.WebApp.Api.Controllers
 
         [HttpGet]
         [Route("Recuperar")]
-        [Authorize]
+        [Authorize(Roles = Funcao.Professor)]
         public IHttpActionResult Recuperar()
         {
             try
